@@ -1,0 +1,14 @@
+<!-- <div class="container" pavlick-morozov="Main page">
+	<navbar></navbar>
+ 	<bookmark-edit-form></bookmark-edit-form>
+	<bookmark-list></bookmark-list>
+	</div>
+</div> -->
+<div class="row">
+	<div ng-repeat="dt in data" class="col-md-3">
+		{{dt.obj.id}}
+		<div ng-click="dt.addCustomer()" class="btn btn-warning">Add customer</div>
+		<div class="btn btn-default" ng-repeat="cust in dt.obj.customer" ng-click="dt.removeCustomer(cust)">{{cust.id}}</div>
+	</div>
+</div>
+

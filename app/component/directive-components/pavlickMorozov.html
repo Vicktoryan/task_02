@@ -1,0 +1,33 @@
+<div ng-class="{'show-scope-object-area': (pavelMorozovShow && createDerective)}">
+	<div class="well show-scope-object" ng-show="pavelMorozovShow" ng-if="createDerective">
+		<h4>{{nameScope}}</h4>
+		<div ng-repeat="newObject in newObjectsScope">
+			<span ng-if="!newObject.isParent"><font color="black"><big><b>{{newObject.name}}</b> - {{newObject.type}}</big></font></span>
+			<span ng-if="newObject.isParent"><font color="gray"><ins><b>^ {{newObject.name}}</b> - {{newObject.type}}</ins></font></span>
+		</div>
+	</div>
+	<br>
+	<div ng-transclude ></div>
+</div>
+
+<style>
+	.show-scope-object{
+		border-radius: 5px;
+		border: 1px solid #333;
+		padding: 0px 5px 10px 10px;
+		background-color: #efe;
+		margin: 5px;
+	}
+
+	.show-scope-object h4 {
+		border: 1px solid #bbb;
+		border-radius: 5px;
+		padding: 5px;
+		background-color: #fff;
+	}
+
+	.show-scope-object-area {
+		padding: 5px;
+		border: 2px solid #f00;
+	}
+</style>
