@@ -1,14 +1,39 @@
-<!-- <div class="container" pavlick-morozov="Main page">
-	<navbar></navbar>
- 	<bookmark-edit-form></bookmark-edit-form>
-	<bookmark-list></bookmark-list>
-	</div>
-</div> -->
+{{organization.customers}}
+<form ng-init="edit={}">
+	First name:
+	<input ng-model="edit.value.firstName" /><br/>
+	Last name:
+	<input ng-model="edit.value.lastName" /><br/>
+	City
+	<input ng-model="edit.value.city" /><br/>
+	Street
+	<input ng-model="edit.value.street" /><br/>
+	{{edit.value}}
+	<br><br>
+	<div class="btn btn-danger" ng-click="organization.addCustomer(edit.value);">ADD</div>
+	<div class="btn btn-success" ng-click="organization.saveCustomer(edit.value)">SAVE</div>
+</form>
+
 <div class="row">
-	<div ng-repeat="dt in data" class="col-md-3">
-		{{dt.obj.id}}
-		<div ng-click="dt.addCustomer()" class="btn btn-warning">Add customer</div>
-		<div class="btn btn-default" ng-repeat="cust in dt.obj.customer" ng-click="dt.removeCustomer(cust)">{{cust.id}}</div>
+	<div ng-repeat="customers in organization.customers" class="col-md-3">
+		{{customers | json}}
+		<div style="border: 1px solid #000; padding: 10px;">
+			{{customers.customer.firstName}}
+		</div>
+		<div class="btn btn-success" ng-click="edit.value = organization.getCustomerForEdit(customers)">EDIT</div>
+		<div class="btn btn-danger" ng-click="edit.value = organization.removeCustomer(customers)">DELETE</div>
 	</div>
 </div>
+
+
+
+
+<!-- <checke-box ng-model="checked"></checke-box> -->
+<!-- 		<div ng-click="dt.addCustomer()" class="btn btn-warning">Add customer</div>
+		<div ng-repeat="cust in dt.obj.customer">
+	<div class="btn btn-default" ng-click="dt.removeCustomer(cust)">{{cust.id}}</div>
+		
+		
+<div class="btn btn-danger" ng-click="edit.val=cust">EDIT</div> -->
+
 
