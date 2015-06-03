@@ -1,39 +1,55 @@
-{{organization.customers}}
-<form ng-init="edit={}">
-	First name:
-	<input ng-model="edit.value.firstName" /><br/>
-	Last name:
-	<input ng-model="edit.value.lastName" /><br/>
-	City
-	<input ng-model="edit.value.city" /><br/>
-	Street
-	<input ng-model="edit.value.street" /><br/>
-	{{edit.value}}
-	<br><br>
-	<div class="btn btn-danger" ng-click="organization.addCustomer(edit.value);">ADD</div>
-	<div class="btn btn-success" ng-click="organization.saveCustomer(edit.value)">SAVE</div>
-</form>
-
+{{organization}}
 <div class="row">
-	<div ng-repeat="customers in organization.customers" class="col-md-3">
-		{{customers | json}}
-		<div style="border: 1px solid #000; padding: 10px;">
-			{{customers.customer.firstName}}
-		</div>
-		<div class="btn btn-success" ng-click="edit.value = organization.getCustomerForEdit(customers)">EDIT</div>
-		<div class="btn btn-danger" ng-click="edit.value = organization.removeCustomer(customers)">DELETE</div>
+	<div class="col-md-12">
+		<div class="btn btn-primary" ng-hide="showForm || organization.selectedCustomer" ng-click="showForm = true; edit.value = null;">ADD CUSTOMER</div>
+		<div class="btn btn-default pull-right" ng-click="reverse=!reverse" ><span class="glyphicon" ng-class="{'glyphicon-chevron-up':reverse, 'glyphicon-chevron-down': !reverse}">&nbsp;</span>Sort by Name</div>
+	</div>
+	<div class="col-md-5">
+		<form ng-init="edit={}" class="well" ng-show="showForm || organization.selectedCustomer">
+			<div class="form-group">
+				<label>First name:</label>
+				<input class="form-control" ng-model="edit.value.firstName" />
+			</div>
+			<div class="form-group">
+				<label>Last name:</label>
+				<input class="form-control" ng-model="edit.value.lastName" />
+			</div>
+			<div class="form-group">
+				<label>City</label>
+				<input class="form-control" ng-model="edit.value.city" />
+			</div>
+			<div class="form-group">
+				<label>Street</label>
+				<input class="form-control" ng-model="edit.value.street" />
+			</div>
+			<div class="btn btn-primary" ng-disabled="organization.selectedCustomer"
+				ng-click="organization.addCustomer(edit.value); showForm = false;">ADD</div>
+			<div class="btn btn-success" ng-disabled="!organization.selectedCustomer"
+				ng-click="organization.saveCustomer(edit.value)">SAVE</div>
+			<div class="btn btn-default pull-right" ng-click="organization.selectedCustomer = null; edit.value = null; showForm = false;">CANCEL</div>
+		</form>
+	</div>
+</div>
+<div class="row">
+ 	<div ng-repeat="customer in organization.customers | orderBy : 'information.firstName' :reverse" class="col-md-4">
+		<br>
+		<ul class="list-group">
+		  <li class="list-group-item active">
+		  	<h4>{{customer.information.firstName}} {{customer.information.lastName}}
+		  		<small class="pull-right">
+		  			<div class="btn btn-default" ng-click="edit.value = organization.getCustomerForEdit(customer);" ><span class="glyphicon glyphicon-pencil"></span></div>
+		  			<div class="btn btn-default" ng-click="edit.value = organization.removeCustomer(customer)"><span class="glyphicon glyphicon-remove"></span></div>
+	  			</small>
+	  		</h4>
+		  </li>
+		  <li class="list-group-item">City: <b>{{customer.information.city}}</b></li>
+		  <li class="li"><a href class="list-group-item list-group-item-warning" ng-click="showOrder(customer)">View {{customer.order.length}} Orders</a></li>
+		</ul>
 	</div>
 </div>
 
-
-
-
-<!-- <checke-box ng-model="checked"></checke-box> -->
-<!-- 		<div ng-click="dt.addCustomer()" class="btn btn-warning">Add customer</div>
-		<div ng-repeat="cust in dt.obj.customer">
-	<div class="btn btn-default" ng-click="dt.removeCustomer(cust)">{{cust.id}}</div>
-		
-		
-<div class="btn btn-danger" ng-click="edit.val=cust">EDIT</div> -->
-
-
+<style>
+.li{
+	list-style: none;
+}
+</style>

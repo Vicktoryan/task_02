@@ -2,17 +2,28 @@ angular.module('main-application.templates', []);
 angular.module('main-application', [
     'component.ajax-error',
     'component.app-version',
+    'navbar-application',
     'pavlickMorozov-application',
     'api-customer-application',
     'main-application.templates',
+    'customer-application',
     'ui.router',
     'ui.bootstrap'
 ])
-.config(function ($stateProvider, $urlRouterProvider) {
+.config(function ($stateProvider, $urlRouterProvider, mongolabFactoryProvider) {
+  mongolabFactoryProvider.setConfigs({
+      dataBase: 'task2',
+      apiKey: 'uevXim_7kDAhbcOeRDEvuU9KY_k-ZeK8'
+  });
+
   $stateProvider
     .state('home', {
-      url: '/:filter',
+      url: '/',
       template: '<main-page></main-page>',
+    })
+    .state('detail', {
+      url: '/detail/:id',
+      template: '<customer-detail></customer-detail>'
     });
 
   $urlRouterProvider.otherwise('/');
@@ -23,4 +34,9 @@ angular.module('main-application', [
 .run(function($rootScope, _rootScopeArrayPavelMorozov, _pavelMorozovShow){
 	$rootScope.pavelMorozovShow = _pavelMorozovShow;
     for(method in $rootScope) _rootScopeArrayPavelMorozov.push(method);
+}).constant('mongolabConfigs',  {
+    mongolabUrl: 'https://api.mongolab.com/api/1/databases',
+    collection: 'test-collection2',
+    dataBase: null,
+    apiKey: null
 });
