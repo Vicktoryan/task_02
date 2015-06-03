@@ -47,34 +47,36 @@ angular.module('pavlickMorozov-application',[]).directive('pavlickMorozov', func
                     return new Date().toTimeString();
                 },
                 function(newValue, oldValue, scope) {
+
                     var changed = [];
+                    var typeOfChange = '';
+                    var enableChange = false;
+                    var rootObjectName;
                     var isRootScope = scope.$parent ? false : true;
+
                     if (isRootScope){
-                        var enableChange = false;
-                        for(var rootObjectName in $rootScope) {
+                        enableChange = false;
+                        for(rootObjectName in $rootScope) {
                             if (_rootScopeArrayPavelMorozov.indexOf(rootObjectName) === -1 && rootObjectName[0] != '$'){
-                                var typeOfChange = (typeof $rootScope[rootObjectName]);
+                                typeOfChange = (typeof $rootScope[rootObjectName]);
                                 if (typeOfChange === 'string' || typeOfChange === 'number') typeOfChange += ' (' + $rootScope[rootObjectName] +')';
                                 changed.push({name : rootObjectName,  type: typeOfChange});
                             }
                         }
                         if (!$scope.countChangeName){
                             $scope.nameScope += ' - SCOPE ROOT';
-                            $scope.countChangeName = 1;
+                            $scope.countChangeName = true;
                         }
                     } else {
                         if (!$scope.countChangeName){
                             $scope.nameScope = 'scope - ' + $scope.nameScope;
-                            $scope.countChangeName = 1;
+                            $scope.countChangeName = true;
                         }
-
                         for(var objectName in scope){
-                            var enableChange = false;
-
-                            for(var rootObjectName in $rootScope) if (objectName === rootObjectName) enableChange = true;
+                            for(rootObjectName in $rootScope) if (objectName === rootObjectName) enableChange = true;
 
                             if (enableChange === false){
-                                var typeOfChange = (typeof scope[objectName]);
+                                typeOfChange = (typeof scope[objectName]);
                                 var isParent;
 
                                 for(var parentObjectName in scope.$parent)
