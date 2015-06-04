@@ -23,7 +23,7 @@
 				<input class="form-control" type="number" min-value="0" ng-model="edit.value.unitPrice" />
 			</div>
 			<div class="btn btn-success" ng-show="!customer.selectedOrder"
-				ng-click="customer.addOrder(edit.value); showForm = false;">SAVE</div>
+				ng-click="customer.addOrder(edit.value); showForm = false;">ADD</div>
 			<div class="btn btn-success" ng-show="customer.selectedOrder"
 				ng-click="customer.saveOrder(edit.value)">SAVE</div>
 			<div class="btn btn-default pull-right" ng-click="customer.selectedOrder = null; edit.value = null; showForm = false;">CANCEL</div>

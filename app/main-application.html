@@ -22,7 +22,7 @@
 				<input class="form-control" ng-model="edit.value.street" />
 			</div>
 			<div class="btn btn-success" ng-show="!organization.selectedCustomer"
-				ng-click="organization.addCustomer(edit.value); showForm = false;">SAVE</div>
+				ng-click="organization.addCustomer(edit.value); showForm = false;">ADD</div>
 			<div class="btn btn-success" ng-show="organization.selectedCustomer"
 				ng-click="organization.saveCustomer(edit.value); showForm = false;">SAVE</div>
 			<div class="btn btn-default pull-right" ng-click="organization.selectedCustomer = null; edit.value = null; showForm = false;">CANCEL</div>

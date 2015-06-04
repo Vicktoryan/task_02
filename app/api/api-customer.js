@@ -17,13 +17,13 @@ angular.module('api-customer-application', [
 		});
 	}
 
-	function addCustomer(people){
-		if (typeof people === 'undefined') return;
+	function addCustomer(inform){
+		if (typeof inform === 'undefined') return;
 		var me = this;
-        mongolabFactory.save({information: people, orders:[]}).$promise.then(function (resource) {
+        mongolabFactory.save({information: inform, orders:[]}).$promise.then(function (resource) {
 			var information = {
 				_id: resource._id,
-				information: angular.copy(people),
+				information: angular.copy(inform),
 				orders: [],
 				addOrder: addOrder,
 				removeOrder: removeOrder,
@@ -35,14 +35,14 @@ angular.module('api-customer-application', [
         });
 	}
 
-	function addCustomerFromBD(people){
-		if (typeof people === 'undefined') return;
-		people.addOrder = addOrder;
-		people.removeOrder = removeOrder;
-		people.saveOrder = saveOrder;
-		people.getOrderForEdit = getOrderForEdit;
-		people.selectedOrder = null;
-		this.customers.push(people);
+	function addCustomerFromBD(inform){
+		if (typeof inform === 'undefined') return;
+		inform.addOrder = addOrder;
+		inform.removeOrder = removeOrder;
+		inform.saveOrder = saveOrder;
+		inform.getOrderForEdit = getOrderForEdit;
+		inform.selectedOrder = null;
+		this.customers.push(inform);
 		this.selectedCustomer = null;
 	}
 
