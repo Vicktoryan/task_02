@@ -24,6 +24,10 @@ angular.module('main-application', [
     .state('detail', {
       url: '/detail/:id',
       template: '<customer-detail></customer-detail>'
+    })
+    .state('list', {
+      url: '/list',
+      template: '<customer-list></customer-list>'
     });
 
   $urlRouterProvider.otherwise('/');

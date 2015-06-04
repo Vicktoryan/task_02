@@ -6,14 +6,11 @@ angular.module('navbar-application', []).directive('navbar', function($rootScope
 			$scope.hideAllDirectives = function() {
                 $rootScope.pavelMorozovShow = !$rootScope.pavelMorozovShow;
             };
-			// $scope.getBookmarWithFilter = function(){
-			// 	$state.go('home', {filter : $scope.filter});
-			// }
-
-			// $scope.showLastEditBookmark = function(){
-			// 	$scope.newBookmark = angular.copy($scope.selectedItem);
-			// 	$scope.isEdit = true;
-			// }
+            $scope.$watch(function(){
+            	return $state.current.name;
+            }, function(){
+				$scope.active = $state.current.name;
+            });
 		}
 	};
 });

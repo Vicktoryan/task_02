@@ -1,6 +1,4 @@
-{{customer | json}}<br><br>
-{{organization | json}}
-<div class="row" ng-init="edit={}; typeSort='product'">
+<div class="row" ng-init="edit={};">
 	<div class="col-md-5">
 		<h3>Orders for {{customer.information.firstName}} {{customer.information.lastName}}</h3>
 		<h4>{{customer.information.street}}</h4>
@@ -24,20 +22,14 @@
 				<label>Unit Price</label>
 				<input class="form-control" type="number" min-value="0" ng-model="edit.value.unitPrice" />
 			</div>
-			<div class="btn btn-primary" ng-disabled="customer.selectedOrder"
-				ng-click="customer.addOrder(edit.value); showForm = false;">ADD</div>
-			<div class="btn btn-success" ng-disabled="!customer.selectedOrder"
+			<div class="btn btn-success" ng-show="!customer.selectedOrder"
+				ng-click="customer.addOrder(edit.value); showForm = false;">SAVE</div>
+			<div class="btn btn-success" ng-show="customer.selectedOrder"
 				ng-click="customer.saveOrder(edit.value)">SAVE</div>
 			<div class="btn btn-default pull-right" ng-click="customer.selectedOrder = null; edit.value = null; showForm = false;">CANCEL</div>
 		</form>
 	</div>
 </div>
-
 <customer-order></customer-order>
 
-<style type="text/css">
-.big-font{
-	font-size: 24px;
-}
-</style>
 

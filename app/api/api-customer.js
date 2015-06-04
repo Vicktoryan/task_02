@@ -10,61 +10,48 @@ angular.module('api-customer-application', [
 		if (!this.selectedCustomer) return;
 		var me = this;
 		var id = this.selectedCustomer._id.$oid;
-		var data = angular.copy(information);
+		var data = angular.copy(this.selectedCustomer);
+		data.information = information;
 		mongolabFactory.update({id: id}, data).$promise.then(function (resource) {
-			me.selectedCustomer.information = data;
+			me.selectedCustomer = null;
 		});
 	}
 
 	function addCustomer(people){
 		if (typeof people === 'undefined') return;
 		var me = this;
-        mongolabFactory.save(people).$promise.then(function (resource) {
-        	people.orders = [];
+        mongolabFactory.save({information: people, orders:[]}).$promise.then(function (resource) {
 			var information = {
 				_id: resource._id,
-				orders: [],
 				information: angular.copy(people),
+				orders: [],
 				addOrder: addOrder,
 				removeOrder: removeOrder,
 				saveOrder: saveOrder,
 				getOrderForEdit: getOrderForEdit
 			};
 			me.customers.push(information);
+			me.selectedCustomer = null;
         });
 	}
 
 	function addCustomerFromBD(people){
 		if (typeof people === 'undefined') return;
-		var id = angular.copy(people._id);
-		delete people._id;
-		var information = {
-			_id: id,
-			information: angular.copy(people),
-			orders: [{
-					id: 1,
-							product: 'E',
-							quantity: 5,
-							unitPrice: 10
-						}, {
-					id: 2,
-							product: 'A2',
-							quantity: 2,
-							unitPrice: 200
-						}],
-			addOrder: addOrder,
-			removeOrder: removeOrder,
-			saveOrder: saveOrder,
-			getOrderForEdit: getOrderForEdit
-		};
-		this.customers.push(information);
+		people.addOrder = addOrder;
+		people.removeOrder = removeOrder;
+		people.saveOrder = saveOrder;
+		people.getOrderForEdit = getOrderForEdit;
+		people.selectedOrder = null;
+		this.customers.push(people);
+		this.selectedCustomer = null;
 	}
 
 	function removeCustomer(customer){
 		var me = this;
-		 mongolabFactory.remove({id: customer._id.$oid}).$promise.then(function(abc){
+		mongolabFactory.remove({id: customer._id.$oid}).$promise.then(function(abc){
 		 	me.customers.splice(me.customers.indexOf(customer), 1);
-         });
+		 	me.selectedCustomer = null;
+        });
 	}
 
 	function getCustomerById(id){
@@ -87,23 +74,37 @@ angular.module('api-customer-application', [
 	function addOrder(product){
 		if (typeof product === 'undefined') return;
 		var me = this;
-
-		console.log(this._id);
 		product.id = new Date().getTime();
-		this.orders.push(angular.copy(product));
+		var saveOrder = angular.copy(this);
+		saveOrder.orders.push(angular.copy(product));
+
+		mongolabFactory.update({id: this._id.$oid}, saveOrder).$promise.then(function (resource) {
+			me.orders.push(angular.copy(product));
+		});
 	}
 
 	function saveOrder(product){
 		if (typeof product === 'undefined') return;
+		var me = this;
 		var orders = angular.copy(this.orders);
 		orders[this.orders.indexOf(this.selectedOrder)] = product;
-		this.orders = orders;
-		this.selectedOrder = null;
+		var saveOrder = angular.copy(this);
+		saveOrder.orders = angular.copy(orders);
+		mongolabFactory.update({id: this._id.$oid}, saveOrder).$promise.then(function (resource) {
+			me.orders = orders;
+			delete me.selectedOrder;
+		});
+
 	}
 
 	function removeOrder(order){
 		if (typeof order === 'undefined') return;
-		this.orders.splice(this.orders.indexOf(order), 1);
+		var me = this;
+		var saveOrder = angular.copy(this);
+		saveOrder.orders.splice(saveOrder.orders.indexOf(order), 1);
+		mongolabFactory.update({id: this._id.$oid}, saveOrder).$promise.then(function(abc){
+		 	me.orders.splice(me.orders.indexOf(order), 1);
+        });
 	}
 
 	var organisation = {
@@ -152,12 +153,6 @@ angular.module('api-customer-application', [
         return $resource(url, {apiKey: c.apiKey}, {
         	update: {method: 'PUT'}
     	});
-        // return {
-        // 	res: $resource(url, {apiKey: c.apiKey}, {
-        //     	update: {method: 'PUT'}
-        // 	}),
-        // 	setCollection: this.setCollecton
-        // };
     };
 }).constant('mongolabConfigs',  {
     mongolabUrl: 'https://api.mongolab.com/api/1/databases',

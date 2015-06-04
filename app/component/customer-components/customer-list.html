@@ -1,0 +1,10 @@
+<div ng-repeat="customer in organization.customers">
+	<div class="row">
+		<div class="col-md-5">
+			<h3>Orders for {{customer.information.firstName}} {{customer.information.lastName}}</h3>
+			<h5>{{customer.information.street}}</h5>
+			<h5>{{customer.information.city}}</h5>
+		</div>
+	</div>
+	<customer-order></customer-order>
+</div>
