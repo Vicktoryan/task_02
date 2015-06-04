@@ -1,4 +1,5 @@
-{{customer | json}}
+{{customer | json}}<br><br>
+{{organization | json}}
 <div class="row" ng-init="edit={}; typeSort='product'">
 	<div class="col-md-5">
 		<h3>Orders for {{customer.information.firstName}} {{customer.information.lastName}}</h3>
@@ -7,18 +8,17 @@
 	</div>
 	<div class="col-md-7">
 
-
 <div class="btn btn-default pull-right" ng-click="reverse=!reverse" ><span class="glyphicon" ng-class="{'glyphicon-chevron-up':reverse, 'glyphicon-chevron-down': !reverse}"></span></div>
 
-		<div class="btn btn-default pull-right" ng-click="typeSort = 'total';reverse=!reverse;reverse=!reverse" >Sort by Total</div>
-		<div class="btn btn-default pull-right" ng-click="typeSort = 'product'" >Sort by Product</div>
+		<div class="btn btn-default pull-right" ng-show="typeSort === 'product'" ng-click="typeSort = 'total';reverse=!reverse;reverse=!reverse" >Sort by Total</div>
+		<div class="btn btn-default pull-right" ng-show="typeSort === 'total'" ng-click="typeSort = 'product'" >Sort by Product</div>
 	</div>
 </div>
-<div class="btn btn-primary" ng-hide="showForm || organization.selectedCustomer" ng-click="showForm = true; edit.value = null;">ADD ORDER</div>
+<div class="btn btn-primary" ng-hide="showForm || customer.selectedOrder" ng-click="showForm = true; edit.value = null;">ADD ORDER</div>
 <br/><br/>
 <div class="row" >
 	<div class="col-md-5">
-		<form ng-init="edit={}" class="well" ng-show="showForm || organization.selectedCustomer">
+		<form ng-init="edit={}" class="well" ng-show="showForm || customer.selectedOrder">
 			<div class="form-group">
 				<label>Product:</label>
 				<input class="form-control" ng-model="edit.value.product" />
@@ -31,11 +31,11 @@
 				<label>Unit Price</label>
 				<input class="form-control" type="number" min-value="0" ng-model="edit.value.unitPrice" />
 			</div>
-			<div class="btn btn-primary" ng-disabled="organization.selectedCustomer"
-				ng-click="organization.addCustomer(edit.value); showForm = false;">ADD</div>
-			<div class="btn btn-success" ng-disabled="!organization.selectedCustomer"
-				ng-click="organization.saveCustomer(edit.value)">SAVE</div>
-			<div class="btn btn-default pull-right" ng-click="organization.selectedCustomer = null; edit.value = null; showForm = false;">CANCEL</div>
+			<div class="btn btn-primary" ng-disabled="customer.selectedOrder"
+				ng-click="customer.addOrder(edit.value); showForm = false;">ADD</div>
+			<div class="btn btn-success" ng-disabled="!customer.selectedOrder"
+				ng-click="customer.saveOrder(edit.value)">SAVE</div>
+			<div class="btn btn-default pull-right" ng-click="customer.selectedOrder = null; edit.value = null; showForm = false;">CANCEL</div>
 		</form>
 	</div>
 </div>
@@ -44,17 +44,20 @@
 	<li class="list-group-item active">
 	<b>
 		<div class="row">
-			<div class="col-md-2 col-md-offset-1">Product</div>
+			<div class="col-md-2 col-md-offset-1" ng-class="{'big-font': typeSort === 'product'}">Product</div>
 			<div class="col-md-3">Quantity</div>
 			<div class="col-md-3">Unit Price</div>
-			<div class="col-md-3">Total</div>
+			<div class="col-md-3" ng-class="{'big-font': typeSort === 'total'}">Total</div>
 		</div>
 		</b>
 	</li>
 
-	<li class="list-group-item" ng-repeat="order in customer.orders | orderBy:'product':reverse | orderByT: typeSort: reverse ">
+	<li class="list-group-item" ng-repeat="order in customer.orders | orderBy:'product':reverse | orderByTotal: typeSort: reverse ">
 		<div class="row">
-			<div class="col-md-1"></div>
+			<div class="col-md-1">
+				<div class="btn btn-default" ng-click="edit.value = customer.getOrderForEdit(order);" ><span class="glyphicon glyphicon-pencil"></span></div>
+  				<div class="btn btn-default" ng-click="edit.value = customer.removeOrder(order)"><span class="glyphicon glyphicon-remove"></span></div>
+			</div>
 			<div class="col-md-2">{{order.product}}</div>
 			<div class="col-md-3">{{order.quantity}}</div>
 			<div class="col-md-3">{{order.unitPrice | currency}}</div>
@@ -70,3 +73,9 @@
 	</li>
 
 </ul>
+
+<style type="text/css">
+.big-font{
+	font-size: 24px;
+}
+</style>

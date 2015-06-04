@@ -8,7 +8,7 @@ angular.module('customer-application', []).filter('totalSum', function(){
 		return sum;
 	};
 })
-.filter('orderByT', function(){
+.filter('orderByTotal', function(){
 	return function(customer, sortType, order){
 		if (typeof customer === 'undefined') return;
 		if (sortType === 'total')

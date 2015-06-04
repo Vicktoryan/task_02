@@ -49,7 +49,9 @@ angular.module('api-customer-application', ['ngResource']).provider('mongolabFac
 				orders: [],
 				information: angular.copy(people),
 				addOrder: addOrder,
-				removeOrder: removeOrder
+				removeOrder: removeOrder,
+				saveOrder: saveOrder,
+				getOrderForEdit: getOrderForEdit
 			};
 			me.customers.push(information);
         });
@@ -63,16 +65,20 @@ angular.module('api-customer-application', ['ngResource']).provider('mongolabFac
 			_id: id,
 			information: angular.copy(people),
 			orders: [{
+					id: 1,
 							product: 'E',
 							quantity: 5,
 							unitPrice: 10
 						}, {
+					id: 2,
 							product: 'A2',
 							quantity: 2,
 							unitPrice: 200
 						}],
 			addOrder: addOrder,
-			removeOrder: removeOrder
+			removeOrder: removeOrder,
+			saveOrder: saveOrder,
+			getOrderForEdit: getOrderForEdit
 		};
 		this.customers.push(information);
 	}
@@ -80,35 +86,46 @@ angular.module('api-customer-application', ['ngResource']).provider('mongolabFac
 	function removeCustomer(customer){
 		var me = this;
 		 mongolabFactory.remove({id: customer._id.$oid}).$promise.then(function(abc){
-		 	me.customers.splice(customer, 1);
+		 	me.customers.splice(me.customers.indexOf(customer), 1);
          });
-	}
-
-	function addOrder(product){
-		if (typeof product === 'undefined') return;
-
-		var index = this.customers.order.push({
-			id: new Date().getTime(),
-			name: product.name
-		});
-		return this.customers.order[index-1];
-	}
-
-	function removeOrder(order){
-		if (typeof order === 'undefined') return;
-		this.customers.order.splice(information, 1);
 	}
 
 	function getCustomerById(id){
 		var customer = {};
+		var me = this;
 		this.customers.forEach(function(_customer){
 			if (_customer._id.$oid === id){
-
 				customer = _customer;
 				return;
 			}
 		});
 		return customer;
+	}
+
+	function getOrderForEdit(order){
+		this.selectedOrder = order;
+		return angular.copy(order);
+	}
+
+	function addOrder(product){
+		if (typeof product === 'undefined') return;
+		var me = this;
+
+		product.id = new Date().getTime();
+		this.orders.push(product);
+	}
+
+	function saveOrder(product){
+		if (typeof product === 'undefined') return;
+		var orders = angular.copy(this.orders);
+		orders[this.orders.indexOf(this.selectedOrder)] = product;
+		this.orders = orders;
+		this.selectedOrder = null;
+	}
+
+	function removeOrder(order){
+		if (typeof order === 'undefined') return;
+		this.orders.splice(this.orders.indexOf(order), 1);
 	}
 
 	var organisation = {
