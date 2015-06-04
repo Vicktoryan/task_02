@@ -1,29 +1,6 @@
-angular.module('api-customer-application', ['ngResource']).provider('mongolabFactory', function (mongolabConfigs) {
-    this.setConfigs = function (_mongolabConfigs) {
-        angular.extend(mongolabConfigs, _mongolabConfigs);
-    };
-
-    this.collection = mongolabConfigs.collection;
-    this.setCollection = function(collectionName){
-		this.collection = collectionName;
-    };
-
-    this.$get = function ($resource) {
-        var c = mongolabConfigs;
-        var url = [c.mongolabUrl, c.dataBase, 'collections', this.collection, ':id'].join('/');
-        return $resource(url, {apiKey: c.apiKey}, {
-        	update: {method: 'PUT'}
-    	});
-        // return {
-        // 	res: $resource(url, {apiKey: c.apiKey}, {
-        //     	update: {method: 'PUT'}
-        // 	}),
-        // 	setCollection: this.setCollecton
-        // };
-    };
-})
-
-.factory('apiCustomer', function(mongolabFactory, $q){
+angular.module('api-customer-application', [
+	'ngResource'
+]).factory('apiCustomer', function(mongolabFactory, $q){
 	function getCustomerForEdit(customers){
 		this.selectedCustomer = customers;
 		return angular.copy(customers.information);
@@ -111,8 +88,9 @@ angular.module('api-customer-application', ['ngResource']).provider('mongolabFac
 		if (typeof product === 'undefined') return;
 		var me = this;
 
+		console.log(this._id);
 		product.id = new Date().getTime();
-		this.orders.push(product);
+		this.orders.push(angular.copy(product));
 	}
 
 	function saveOrder(product){
@@ -155,6 +133,32 @@ angular.module('api-customer-application', ['ngResource']).provider('mongolabFac
 	  		});
 		}
 	};
+})
+
+
+.provider('mongolabFactory', function (mongolabConfigs) {
+    this.setConfigs = function (_mongolabConfigs) {
+        angular.extend(mongolabConfigs, _mongolabConfigs);
+    };
+
+    this.collection = mongolabConfigs.collection;
+    this.setCollection = function(collectionName){
+		this.collection = collectionName;
+    };
+
+    this.$get = function ($resource) {
+        var c = mongolabConfigs;
+        var url = [c.mongolabUrl, c.dataBase, 'collections', this.collection, ':id'].join('/');
+        return $resource(url, {apiKey: c.apiKey}, {
+        	update: {method: 'PUT'}
+    	});
+        // return {
+        // 	res: $resource(url, {apiKey: c.apiKey}, {
+        //     	update: {method: 'PUT'}
+        // 	}),
+        // 	setCollection: this.setCollecton
+        // };
+    };
 }).constant('mongolabConfigs',  {
     mongolabUrl: 'https://api.mongolab.com/api/1/databases',
     collection: 'Task2-collection',

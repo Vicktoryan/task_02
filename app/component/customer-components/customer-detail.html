@@ -6,13 +6,6 @@
 		<h4>{{customer.information.street}}</h4>
 		<h4>{{customer.information.city}}</h4>
 	</div>
-	<div class="col-md-7">
-
-<div class="btn btn-default pull-right" ng-click="reverse=!reverse" ><span class="glyphicon" ng-class="{'glyphicon-chevron-up':reverse, 'glyphicon-chevron-down': !reverse}"></span></div>
-
-		<div class="btn btn-default pull-right" ng-show="typeSort === 'product'" ng-click="typeSort = 'total';reverse=!reverse;reverse=!reverse" >Sort by Total</div>
-		<div class="btn btn-default pull-right" ng-show="typeSort === 'total'" ng-click="typeSort = 'product'" >Sort by Product</div>
-	</div>
 </div>
 <div class="btn btn-primary" ng-hide="showForm || customer.selectedOrder" ng-click="showForm = true; edit.value = null;">ADD ORDER</div>
 <br/><br/>
@@ -39,43 +32,12 @@
 		</form>
 	</div>
 </div>
-<h4>Sort by {{typeSort}}</h4>
-<ul class="list-group">
-	<li class="list-group-item active">
-	<b>
-		<div class="row">
-			<div class="col-md-2 col-md-offset-1" ng-class="{'big-font': typeSort === 'product'}">Product</div>
-			<div class="col-md-3">Quantity</div>
-			<div class="col-md-3">Unit Price</div>
-			<div class="col-md-3" ng-class="{'big-font': typeSort === 'total'}">Total</div>
-		</div>
-		</b>
-	</li>
 
-	<li class="list-group-item" ng-repeat="order in customer.orders | orderBy:'product':reverse | orderByTotal: typeSort: reverse ">
-		<div class="row">
-			<div class="col-md-1">
-				<div class="btn btn-default" ng-click="edit.value = customer.getOrderForEdit(order);" ><span class="glyphicon glyphicon-pencil"></span></div>
-  				<div class="btn btn-default" ng-click="edit.value = customer.removeOrder(order)"><span class="glyphicon glyphicon-remove"></span></div>
-			</div>
-			<div class="col-md-2">{{order.product}}</div>
-			<div class="col-md-3">{{order.quantity}}</div>
-			<div class="col-md-3">{{order.unitPrice | currency}}</div>
-			<div class="col-md-3">{{(order.quantity*order.unitPrice) | currency}}</div>
-		</div>
-	</li>
-
-	<li class="list-group-item list-group-item-info">
-		<div class="row">
-			<div class="col-md-9"></div>
-			<div class="col-md-3"><b>{{customer.orders | totalSum: customer.orders | currency}}</b></div>
-		</div>
-	</li>
-
-</ul>
+<customer-order></customer-order>
 
 <style type="text/css">
 .big-font{
 	font-size: 24px;
 }
 </style>
+
