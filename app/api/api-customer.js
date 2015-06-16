@@ -117,6 +117,7 @@ angular.module('api-customer-application', [
 		customers: []
 	};
 
+	this.organisation = organisation;
 	this.isLoad = false;
 	return {
 		isLoad: this.isLoad,
