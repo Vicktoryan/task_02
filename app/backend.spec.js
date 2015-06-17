@@ -9,24 +9,25 @@ describe('main', function () {
 
 
 
-    it('element should get compiled', inject(function (directiveBuilder, $httpBackend, apiCustomer, $state) {
+    it('element should get compiled', inject(function (directiveBuilder, $httpBackend, apiCustomer, $state, $rootScope) {
+    	var customer = {_id: {$oid : 1}};
         var directive = directiveBuilder.build('<main-page></main-page>');
         directive.scope.$digest();
+        spyOn($state, 'go');
         expect(directive.element.html()).toBeDefined();
         expect(directive.element.controller).toBeDefined();
-		expect(directive.scope.showOrder);
+		expect(directive.element.scope().showOrder).toBeDefined();
 
 		directive.scope.organization = apiCustomer.loadOrganization();
 		apiCustomer.isLoad = false;
-		expect(apiCustomer.isLoad).toBe(false);
-		expect(apiCustomer.loadOrganization()).toEqual(directive.scope.organization);
-
+		expect(directive.scope.organization).toEqual(apiCustomer.loadOrganization());
 
 		directive.scope.organization = apiCustomer.getOrganisation();
 		apiCustomer.isLoad = true;
-		expect(apiCustomer.isLoad).toBe(true);
-		expect(apiCustomer.getOrganisation()).toEqual(directive.scope.organization);
-		expect($state.go('detail')).toBeDefined();
+		expect(directive.scope.organization).toEqual(apiCustomer.getOrganisation());
+
+		directive.element.scope().showOrder(customer);
+		expect($state.go).toHaveBeenCalled();
     }));
 });
 

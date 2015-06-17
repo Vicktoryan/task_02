@@ -10,17 +10,37 @@ describe('api-customer', function () {
     }));
 
     it('can i test apiCustomer.organization method', inject(function($httpBackend,apiCustomer){
+    	var customer = {
+			"_id" : { "$oid" : "55756365e4b0d80d956610c7"} ,
+			"information" :
+			{
+				"firstName" : "w" ,
+				"lastName" : "w" ,
+				"city" : "w" ,
+				"street" : "w"
+			} ,
+			"orders" : [ ]
+		};
     	var organization = apiCustomer.getOrganisation();
 		expect(organization.addCustomer).toBeDefined();
 		expect(organization.addCustomer()).not.toBeDefined();
 
+
+		organization.addCustomer(customer.information);
+
 		expect(organization.removeCustomer).toBeDefined();
 		expect(organization.getCustomerForEdit).toBeDefined();
+
+
+		organization.getCustomerForEdit(customer);
+
 		expect(organization.saveCustomer).toBeDefined();
 		expect(organization.saveCustomer()).not.toBeDefined();
 
 		expect(organization.addCustomerFromBD).toBeDefined();
 		expect(organization.getCustomerById).toBeDefined();
+		organization.getCustomerById(customer._id);
+
 		console.log(organization.addCustomerFromBD());
 		expect(organization.addCustomerFromBD()).not.toBeDefined();
     }));
@@ -29,21 +49,19 @@ describe('api-customer', function () {
     	var organization = apiCustomer.getOrganisation();
 		organization.addCustomerFromBD(apiCustomer);
 		var customer = organization.customers[0];
-
-		var customerData = organization.customers[0];
-		console.log(customerData);
-		//var customer2 = organization.getCustomerForEdit(customer);
-
 		expect(customer.addOrder).toBeDefined();
+		expect(customer.addOrder()).not.toBeDefined();
 		expect(customer.removeOrder).toBeDefined();
 		expect(customer.removeOrder()).not.toBeDefined();
 		expect(customer.saveOrder).toBeDefined();
 		expect(customer.saveOrder()).not.toBeDefined();
-
+		expect(customer.getOrderForEdit).toBeDefined();
+		var select = customer.getOrderForEdit(customer.orders);
+		customer.addOrder(select);
+		customer.saveOrder(select);
+		customer.removeOrder(customer.orders);
 		expect(customer.getOrderForEdit).toBeDefined();
     }));
-
-
 });
 
 function commonHttpBackend($httpBackend){
@@ -59,7 +77,8 @@ function commonHttpBackend($httpBackend){
 				"city" : "w" ,
 				"street" : "w"
 			} ,
-			"orders" : [ ]
+			"orders" : [ { "product" : "aasdfafffffffffffffffffffffffff" , "id" : 1434303048978}],
+			"selectedOrder" : { "product" : "aasdfaf" , "id" : 1434303048978}
 		} , {
 			"_id" : { "$oid" : "5575639ae4b0d80d95661112"} ,
 			"information" :
@@ -69,8 +88,8 @@ function commonHttpBackend($httpBackend){
 				"city" : "s" ,
 				"street" : "s"
 			} ,
-			"orders" : [ { "product" : "aasdfafffffffffffffffffffffffff" , "id" : 1434303048978}] ,
-			"selectedOrder" : { "product" : "aasdfaf" , "id" : 1434303048978}
+			"orders" : [ { "product" : "aasdfaffffffffffffffffffffff3" , "id" : 1434303048977}] ,
+			"selectedOrder" : { "product" : "aasdfaf" , "id" : 1434303048977}
 		} , {
 			"_id" : { "$oid" : "55791187e4b03f16b9d91113"} ,
 			"information" :
