@@ -15,12 +15,8 @@ describe('navbar', function () {
         expect(directive.element.html()).toBeDefined();
         expect(directive.element.controller).toBeDefined();
 
-console.log(directive.element.scope().hideAllDirectives());
-console.log(directive.scope.ChildScope());//.hideAllDirectives());
-
-
-  //      var scopeScope = directive.element.isolateScope();
-    //    scopeScope.$digest();
-      //  expect(scopeScope.hideAllDirectives).toBeDefined();
+        var scopeScope = directive.element.isolateScope();
+       scopeScope.$digest();
+       expect(scopeScope.hideAllDirectives).toBeDefined();
     }));
 });

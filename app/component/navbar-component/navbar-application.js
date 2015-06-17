@@ -6,8 +6,7 @@ angular.module('navbar-application', [
 		link: function($scope, iElm, iAttrs, controller) {
 			$scope.nn = 0;
 			$scope.hideAllDirectives = function() {
-return '2222';
-               // $rootScope.pavelMorozovShow = !$rootScope.pavelMorozovShow;
+				$rootScope.pavelMorozovShow = !$rootScope.pavelMorozovShow;
             };
             $scope.$watch(function(){
             	return $state.current.name;

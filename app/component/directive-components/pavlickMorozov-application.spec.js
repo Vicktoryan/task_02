@@ -14,7 +14,5 @@ describe('pavlickMorozov', function () {
         expect(directive.element.controller).toBeDefined();
         $rootScope.pavelMorozovShow = '1';
         expect(directive.scope.pavelMorozovShow).toEqual('1');
-
-
     }));
 });
