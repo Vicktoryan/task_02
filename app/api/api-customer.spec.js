@@ -28,10 +28,7 @@ describe('api-customer', function () {
 		expect(customer.saveOrder).toBeDefined();
 		expect(customer.getOrderForEdit).toBeDefined();
     }));
-
-
 });
-
 
 function commonHttpBackend($httpBackend){
     var url='https://api.mongolab.com/api/1/databases/task2/collections/Task2-collection?apiKey=uevXim_7kDAhbcOeRDEvuU9KY_k-ZeK8';
@@ -71,3 +68,5 @@ function commonHttpBackend($httpBackend){
 
     	);
 }
+
+

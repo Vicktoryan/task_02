@@ -1,4 +1,6 @@
-angular.module('customer-application', []).filter('totalSum', function(){
+angular.module('customer-application', [
+    'api-customer-application'
+    ]).filter('totalSum', function(){
     return function(customer){
         if (typeof customer === 'undefined')  return;
         var sum = 0;

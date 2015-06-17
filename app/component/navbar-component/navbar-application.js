@@ -1,10 +1,11 @@
-angular.module('navbar-application', []).directive('navbar', function($rootScope, $state){
+angular.module('navbar-application', [
+	]).directive('navbar', function($rootScope, $state){
 	return {
-		scope: true,
+		scope: {},
 		templateUrl: 'app/component/navbar-component/navbar-application.html',
 		link: function($scope, iElm, iAttrs, controller) {
 			$scope.hideAllDirectives = function() {
-                $rootScope.pavelMorozovShow = !$rootScope.pavelMorozovShow;
+               // $rootScope.pavelMorozovShow = !$rootScope.pavelMorozovShow;
             };
             $scope.$watch(function(){
             	return $state.current.name;
