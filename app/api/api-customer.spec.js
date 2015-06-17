@@ -12,22 +12,38 @@ describe('api-customer', function () {
     it('can i test apiCustomer.organization method', inject(function($httpBackend,apiCustomer){
     	var organization = apiCustomer.getOrganisation();
 		expect(organization.addCustomer).toBeDefined();
+		expect(organization.addCustomer()).not.toBeDefined();
+
 		expect(organization.removeCustomer).toBeDefined();
 		expect(organization.getCustomerForEdit).toBeDefined();
 		expect(organization.saveCustomer).toBeDefined();
+		expect(organization.saveCustomer()).not.toBeDefined();
+
 		expect(organization.addCustomerFromBD).toBeDefined();
 		expect(organization.getCustomerById).toBeDefined();
+		console.log(organization.addCustomerFromBD());
+		expect(organization.addCustomerFromBD()).not.toBeDefined();
     }));
 
     it('can i test apiCustomer.organization.customer method', inject(function($httpBackend,apiCustomer){
     	var organization = apiCustomer.getOrganisation();
 		organization.addCustomerFromBD(apiCustomer);
 		var customer = organization.customers[0];
+
+		var customerData = organization.customers[0];
+		console.log(customerData);
+		//var customer2 = organization.getCustomerForEdit(customer);
+
 		expect(customer.addOrder).toBeDefined();
 		expect(customer.removeOrder).toBeDefined();
+		expect(customer.removeOrder()).not.toBeDefined();
 		expect(customer.saveOrder).toBeDefined();
+		expect(customer.saveOrder()).not.toBeDefined();
+
 		expect(customer.getOrderForEdit).toBeDefined();
     }));
+
+
 });
 
 function commonHttpBackend($httpBackend){

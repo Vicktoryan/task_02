@@ -8,7 +8,6 @@ angular.module('main-application').directive('mainPage', function(apiCustomer, $
             } else {
                 apiCustomer.loadOrganization().then(function(result){
                     $scope.organization = result;
-                    console.log(result);
                 });
             }
             $scope.showOrder = function(customer){

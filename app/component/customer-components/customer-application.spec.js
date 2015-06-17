@@ -1,43 +1,42 @@
 describe('customer-application', function () {
 	beforeEach(module('templates'));
 	beforeEach(module('ui.router'));
-
 	beforeEach(module('customer-application'));
     beforeEach(inject(commonHttpBackend));
 
-    it('element should get compiled1', inject(function (directiveBuilder) {
+    it('element should get customer-order', inject(function (directiveBuilder) {
         var directive = directiveBuilder.build('<customer-order></customer-order>');
         directive.scope.$digest();
         expect(directive.element.html()).toBeDefined();
         expect(directive.element.controller).toBeDefined();
     }));
 
-    it('element should get compiled2', inject(function (directiveBuilder, $httpBackend, apiCustomer) {
-        // //expect(apiCustomer.isLoad).toBe(true);
-        // // var organization;
-        // // if (apiCustomer.isLoad)
-        // //     organization = apiCustomer.getOrganisation();
-        // // else
-        // //     organization = apiCustomer.loadOrganization();
-
-        // var directive = directiveBuilder.build('<customer-list></customer-list>');
-        // //console.log(apiCustomer);
-        // directive.scope.$digest();
-        // $httpBackend.flush();
-        // expect(directive.element.html()).toBeDefined();
-        // expect(directive.element.controller).toBeDefined();
+    it('element should get customer-list', inject(function (directiveBuilder, $httpBackend, apiCustomer) {
+        var directive = directiveBuilder.build('<customer-list></customer-list>');
+        directive.scope.$digest();
+        expect(directive.element.html()).toBeDefined();
+        expect(directive.element.controller).toBeDefined();
+        var data = apiCustomer.getOrganisation();
+        expect(apiCustomer.getOrganisation()).toEqual(data);
     }));
 
-    // it('element should get compiled', inject(function (directiveBuilder) {
+    it('element should get customer-detail', inject(function (directiveBuilder, $httpBackend, apiCustomer) {
+        var directive = directiveBuilder.build('<customer-detail></customer-detail>');
+        directive.scope.$digest();
+        expect(directive.element.html()).toBeDefined();
+        expect(directive.element.controller).toBeDefined();
+    }));
 
-    //     var directive = directiveBuilder.build('<customer-detail></customer-detail>');
-    //     directive.scope.$digest();
-    //     //$httpBackend.flush();
-    //     expect(directive.element.html()).toBeDefined();
-    //     expect(directive.element.controller).toBeDefined();
-    //     //console.log(directive.scope.active);
-    //     //expect(directive.scope.active).toBe(1);
-    // }));
+    it('check filter',inject(function($filter){
+        var data = [{
+            unitPrice:1,
+            quantity: 1
+        }];
+        var res = $filter('totalSum')(data);
+        expect(res.length).not.toBe(0);
+        expect(res).toBe(1);
+    }));
+
 });
 
 

@@ -16,7 +16,11 @@ describe('navbar', function () {
         expect(directive.element.controller).toBeDefined();
 
         var scopeScope = directive.element.isolateScope();
-       scopeScope.$digest();
-       expect(scopeScope.hideAllDirectives).toBeDefined();
+        scopeScope.$digest();
+        expect(scopeScope.hideAllDirectives).toBeDefined();
+        $rootScope.pavelMorozovShow = true;
+        expect($rootScope.pavelMorozovShow).toBe(true);
+        scopeScope.hideAllDirectives();
+        expect($rootScope.pavelMorozovShow).toBe(false);
     }));
 });
