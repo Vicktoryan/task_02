@@ -1,3 +1,27 @@
+// describe('main', function () {
+
+//     beforeEach(module('templates'));
+// 	beforeEach(module('main-application'));
+
+// //beforeEach(inject($stateProvider));
+
+
+
+//     it('element should get compiled', inject(function (directiveBuilder) {
+
+//         var directive = directiveBuilder.build('<main-page></main-page>');
+//         //directive.scope.$digest();
+//         //expect(directive.element.html()).toBeDefined();
+//         //expect(directive.element.controller).toBeDefined();
+
+// //console.log($rootScope.hideAllDirectives);
+
+//         // var scopeScope = directive.element.isolateScope();
+//         // scopeScope.$digest();
+//         // expect(scopeScope.hideAllDirectives).toBeDefined();
+//     }));
+// });
+
 function commonHttpBackend($httpBackend){
     var url='https://api.mongolab.com/api/1/databases/task2/collections/Task2-collection?apiKey=uevXim_7kDAhbcOeRDEvuU9KY_k-ZeK8';
     $httpBackend.whenGET(url).respond(200,

@@ -8,17 +8,19 @@ describe('navbar', function () {
 
 
 
-    it('element should get compiled', inject(function (directiveBuilder) {
+    it('element should get compiled', inject(function (directiveBuilder, $rootScope) {
 
         var directive = directiveBuilder.build('<navbar></navbar>');
         directive.scope.$digest();
         expect(directive.element.html()).toBeDefined();
         expect(directive.element.controller).toBeDefined();
 
-        var scopeScope = directive.element.isolateScope();
-        scopeScope.$digest();
+console.log(directive.element.scope().hideAllDirectives());
+console.log(directive.scope.ChildScope());//.hideAllDirectives());
 
-        expect(scopeScope.hideAllDirectives).toBeDefined();
 
+  //      var scopeScope = directive.element.isolateScope();
+    //    scopeScope.$digest();
+      //  expect(scopeScope.hideAllDirectives).toBeDefined();
     }));
 });

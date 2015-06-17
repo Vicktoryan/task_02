@@ -1,6 +1,6 @@
 angular.module('main-application').directive('mainPage', function(apiCustomer, $state){
     return {
-        scope: true,
+        scope: {},
         templateUrl: 'app/main-application.html',
         link: function($scope, el, at, mod){
             if (apiCustomer.isLoad){
